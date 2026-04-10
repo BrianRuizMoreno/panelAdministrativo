@@ -1,0 +1,74 @@
+/* Physis Brand Palette */
+:root {
+  --primary-physis: #003366;
+  --secondary-physis: #55c1e6;
+  --bg-physis: #f4f7f6;
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --glass-bg: rgba(255, 255, 255, 0.3);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --text-main: #2d3436;
+  --text-muted: #636e72;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-physis);
+  color: var(--text-main);
+  background: linear-gradient(135deg, #001a33 0%, #003366 100%);
+  min-height: 100vh;
+}
+
+h1, h2, h3 {
+  font-weight: 700;
+  color: var(--primary-physis);
+}
+
+.glass-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn-physis {
+  background-color: var(--primary-physis);
+  color: white;
+  border-radius: 8px;
+  padding: 10px 24px;
+  border: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-physis:hover {
+  background-color: var(--secondary-physis);
+  transform: translateY(-2px);
+}
+
+.form-control-physis {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-bottom: 16px;
+  transition: border-color 0.3s;
+}
+
+.form-control-physis:focus {
+  outline: none;
+  border-color: var(--secondary-physis);
+  box-shadow: 0 0 0 3px rgba(85, 193, 230, 0.2);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade {
+  animation: fadeIn 0.5s ease forwards;
+}

@@ -1,0 +1,19 @@
+<IfModule mod_headers.c>
+    # Prevenir Clickjacking (Iframe / DoS UI)
+    Header set X-Frame-Options "DENY"
+    Header set Content-Security-Policy "frame-ancestors 'none';"
+    
+    # Habilitar políticas DNS seguras si aplica
+    Header set X-DNS-Prefetch-Control "on"
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Redirección SPA estándar de Angular (Fallback a index.html)
+  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
+  RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
+  RewriteRule ^ - [L]
+
+  RewriteRule ^ /index.html [L]
+</IfModule>
