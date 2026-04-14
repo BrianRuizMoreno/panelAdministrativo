@@ -8,8 +8,8 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const token = authService.getToken();
 
-  // No adjuntamos token si es el request de login utilizando el nuevo endpoint
-  if (req.url.includes('/core/auth')) {
+  // No adjuntamos token en el request de login (directo o a través del proxy de n8n)
+  if (req.url.includes('/core/auth') || req.url.includes('/auth-proxy')) {
     return next(req);
   }
 

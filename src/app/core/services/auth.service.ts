@@ -21,7 +21,7 @@ export class AuthService {
     private readonly storage = inject(StorageService);
     private readonly router = inject(Router);
 
-    private readonly API_URL = environment.apiUrl;
+    private readonly API_URL = `${environment.webhooks.base}${environment.webhooks.authProxy}`;
     private readonly SERIAL_ID = environment.serial;
 
     private readonly statusSignal = signal<AuthStatus>('idle');
@@ -65,15 +65,19 @@ export class AuthService {
     }
 
 
-    private handleLoginResponse(response: AuthResponse): void {
-        // En Physis, el login exitoso devuelve el objeto con empresa
+    private handleLoginResponse(rawResponse: AuthResponse | AuthResponse[]): void {
+        const response = Array.isArray(rawResponse) ? rawResponse[0] : rawResponse;
+
+        if (!response) {
+            throw new Error('Respuesta del servidor vacía');
+        }
+
         if (response.empresa || response.token) {
             this.completeAuthentication(response);
             this.statusSignal.set('authenticated');
-            // Redirigimos al dashboard (el usuario puso /chat, pero usaremos /dashboard por el panel)
             this.router.navigate(['/dashboard']);
         } else {
-            throw new Error('Empresa no asignada o incorrecta');
+            throw new Error('Usuario y/o contraseña incorrectos');
         }
     }
 
@@ -106,9 +110,11 @@ export class AuthService {
     }
 
     private handleError(error: HttpErrorResponse): Observable<never> {
+        console.error('Error detallado de AuthService:', error);
+
         const authError: AuthError = {
             code: (error.status ?? 0).toString(),
-            message: error.error?.message || 'Error de autenticación',
+            message: error.error?.message || error.message || 'Error de autenticación',
             statusCode: error.status || 0
         };
         this.errorSignal.set(authError);

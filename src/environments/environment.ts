@@ -8,6 +8,7 @@ export const environment = {
     sifacUrl: 'https://autogestion.labolsadecafe.com.ar/phy2service/api/sifac',
     webhooks: {
         base: 'https://n8n.bolsadecafe.cloud/webhook',
+        authProxy: '/auth-proxy',
         metricas: '/api-metricas',
         terceros: '/api-terceros',
         contactos: '/api-contactos',
